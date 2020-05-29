@@ -45,90 +45,82 @@ boost::shared_ptr<TaskSequence> graphicsSequence;
 boost::shared_ptr<TaskSequence> physicsSequence;
 
 //int main(int argc, char* argv[]) {
-int main(int argc, const char** argv) {
-  Properties config;
-  config.LoadFile("animator.config");
+int main(int argc, const char** argv) 
+{
+	Properties config;
+	config.LoadFile("animator.config");
 
-  Initialize(config);
+	Initialize(config);
 
+	// initialize systems
+	SystemManager *systemManager = SystemManager::GetInstancePtr();
 
-  // initialize systems
+	graphicsSystem = new GraphicsSystem();
+	bool returnvalue = systemManager->RegisterSystem("GraphicsSystem", graphicsSystem);
+	if (!returnvalue) 
+		Log(e_FatalError, "blunted", "Initialize", "Could not register GraphicsSystem");
 
-  SystemManager *systemManager = SystemManager::GetInstancePtr();
+//	physicsSystem = new PhysicsSystem();
+//	returnvalue = systemManager->RegisterSystem("PhysicsSystem", physicsSystem);
+//	if (!returnvalue) Log(e_FatalError, "blunted", "Initialize", "Could not register PhysicsSystem");
 
-  graphicsSystem = new GraphicsSystem();
-  bool returnvalue = systemManager->RegisterSystem("GraphicsSystem", graphicsSystem);
-  if (!returnvalue) Log(e_FatalError, "blunted", "Initialize", "Could not register GraphicsSystem");
+	// todo: let systemmanager init systems?
+	graphicsSystem->Initialize(config);
+//	physicsSystem->Initialize(config);
 
-//  physicsSystem = new PhysicsSystem();
-//  returnvalue = systemManager->RegisterSystem("PhysicsSystem", physicsSystem);
-//  if (!returnvalue) Log(e_FatalError, "blunted", "Initialize", "Could not register PhysicsSystem");
+	// init scenes
+	scene2D = boost::shared_ptr<Scene2D>(new Scene2D("scene2D", config));
+	SceneManager::GetInstance().RegisterScene(scene2D);
 
-  // todo: let systemmanager init systems?
-  graphicsSystem->Initialize(config);
-//  physicsSystem->Initialize(config);
+	scene3D = boost::shared_ptr<Scene3D>(new Scene3D("scene3D"));
+	SceneManager::GetInstance().RegisterScene(scene3D);
 
+	// sequences
+	boost::mutex graphicsMutex;
 
-  // init scenes
+	graphicsSequence = boost::shared_ptr<TaskSequence>(new TaskSequence("graphics", config.GetInt("graphics3d_frametime_ms", 0)));
+	graphicsSequence->AddLockEntry(graphicsMutex, e_LockAction_Lock);
+	graphicsSequence->AddSystemTaskEntry(graphicsSystem, e_TaskPhase_Get);
+	graphicsSequence->AddLockEntry(graphicsMutex, e_LockAction_Unlock);
+	graphicsSequence->AddSystemTaskEntry(graphicsSystem, e_TaskPhase_Process);
+	graphicsSequence->AddSystemTaskEntry(graphicsSystem, e_TaskPhase_Put);
+	GetScheduler()->RegisterTaskSequence(graphicsSequence);
 
-  scene2D = boost::shared_ptr<Scene2D>(new Scene2D("scene2D", config));
-  SceneManager::GetInstance().RegisterScene(scene2D);
+	// gui
+	boost::shared_ptr<GuiTask> guiTask(new GuiTask(scene2D, 20 / 10.0, 10));
+	GuiInterface *guiInterface = guiTask->GetInterface();
+	boost::shared_ptr<Animator> animator(new Animator(scene2D, scene3D, guiInterface));
+	physicsSequence = boost::shared_ptr<TaskSequence>(new TaskSequence("physics", config.GetInt("physics_frametime_ms", 10), false));
+	//physicsSequence->AddSystemTaskEntry(physicsSystem, e_TaskPhase_Get);
+	//physicsSequence->AddSystemTaskEntry(physicsSystem, e_TaskPhase_Process);
+	physicsSequence->AddLockEntry(graphicsMutex, e_LockAction_Lock);
+	//physicsSequence->AddSystemTaskEntry(physicsSystem, e_TaskPhase_Put);
+	physicsSequence->AddUserTaskEntry(guiTask, e_TaskPhase_Get);
+	physicsSequence->AddUserTaskEntry(guiTask, e_TaskPhase_Process);
+	physicsSequence->AddUserTaskEntry(guiTask, e_TaskPhase_Put);
+	physicsSequence->AddUserTaskEntry(animator, e_TaskPhase_Get);
+	physicsSequence->AddUserTaskEntry(animator, e_TaskPhase_Process);
+	physicsSequence->AddUserTaskEntry(animator, e_TaskPhase_Put);
+	physicsSequence->AddLockEntry(graphicsMutex, e_LockAction_Unlock);
+	GetScheduler()->RegisterTaskSequence(physicsSequence);
 
-  scene3D = boost::shared_ptr<Scene3D>(new Scene3D("scene3D"));
-  SceneManager::GetInstance().RegisterScene(scene3D);
-
-
-  // sequences
-
-  boost::mutex graphicsMutex;
-
-  graphicsSequence = boost::shared_ptr<TaskSequence>(new TaskSequence("graphics", config.GetInt("graphics3d_frametime_ms", 0)));
-  graphicsSequence->AddLockEntry(graphicsMutex, e_LockAction_Lock);
-  graphicsSequence->AddSystemTaskEntry(graphicsSystem, e_TaskPhase_Get);
-  graphicsSequence->AddLockEntry(graphicsMutex, e_LockAction_Unlock);
-  graphicsSequence->AddSystemTaskEntry(graphicsSystem, e_TaskPhase_Process);
-  graphicsSequence->AddSystemTaskEntry(graphicsSystem, e_TaskPhase_Put);
-  GetScheduler()->RegisterTaskSequence(graphicsSequence);
-
-
-  // gui
-
-  boost::shared_ptr<GuiTask> guiTask(new GuiTask(scene2D, 20 / 10.0, 10));
-  GuiInterface *guiInterface = guiTask->GetInterface();
-  boost::shared_ptr<Animator> animator(new Animator(scene2D, scene3D, guiInterface));
-  physicsSequence = boost::shared_ptr<TaskSequence>(new TaskSequence("physics", config.GetInt("physics_frametime_ms", 10), false));
-  //physicsSequence->AddSystemTaskEntry(physicsSystem, e_TaskPhase_Get);
-  //physicsSequence->AddSystemTaskEntry(physicsSystem, e_TaskPhase_Process);
-  physicsSequence->AddLockEntry(graphicsMutex, e_LockAction_Lock);
-  //physicsSequence->AddSystemTaskEntry(physicsSystem, e_TaskPhase_Put);
-  physicsSequence->AddUserTaskEntry(guiTask, e_TaskPhase_Get);
-  physicsSequence->AddUserTaskEntry(guiTask, e_TaskPhase_Process);
-  physicsSequence->AddUserTaskEntry(guiTask, e_TaskPhase_Put);
-  physicsSequence->AddUserTaskEntry(animator, e_TaskPhase_Get);
-  physicsSequence->AddUserTaskEntry(animator, e_TaskPhase_Process);
-  physicsSequence->AddUserTaskEntry(animator, e_TaskPhase_Put);
-  physicsSequence->AddLockEntry(graphicsMutex, e_LockAction_Unlock);
-  GetScheduler()->RegisterTaskSequence(physicsSequence);
-
-
-  // fire!
-
-//  while (RunOnce()) {
-//  }
-  Run();
+	// fire!
+//	while (RunOnce()) {
+//	}
+	Run();
 
 
-  // exit
+	// exit
 
-  animator.reset();
-  physicsSequence.reset();
-  graphicsSequence.reset();
-  guiTask.reset();
+	animator.reset();
+	physicsSequence.reset();
+	graphicsSequence.reset();
+	guiTask.reset();
 
-  scene2D.reset();
-  scene3D.reset();
+	scene2D.reset();
+	scene3D.reset();
 
-  Exit();
+	Exit();
 
-  return 0;
+	return 0;
 }

@@ -13,40 +13,40 @@
 
 namespace blunted {
 
-  struct PulldownEntry {
-    std::string name;
-    Gui2Button *button;
-  };
+	struct PulldownEntry {
+		std::string name;
+		Gui2Button *button;
+	};
 
-  class Gui2Pulldown : public Gui2View {
+	class Gui2Pulldown : public Gui2View {
 
-    public:
-      Gui2Pulldown(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent);
-      virtual ~Gui2Pulldown();
+		public:
+			Gui2Pulldown(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent);
+			virtual ~Gui2Pulldown();
 
-      void AddEntry(const std::string &caption, const std::string &name);
-      void PullDownOrUp();
-      void SetSelected(int selectedEntry);
-      std::string GetSelected() const;
+			void AddEntry(const std::string &caption, const std::string &name);
+			void PullDownOrUp();
+			void SetSelected(int selectedEntry);
+			std::string GetSelected() const;
 
-      virtual void ProcessWindowingEvent(WindowingEvent *event);
+			virtual void ProcessWindowingEvent(WindowingEvent *event);
 
-      boost::signal<void(Gui2Pulldown*)> sig_OnChange;
+			boost::signal<void(Gui2Pulldown*)> sig_OnChange;
 
-    protected:
-      void Select(int selectedEntry);
+		protected:
+			void Select(int selectedEntry);
 
-      Gui2Button *pulldownButton;
+			Gui2Button *pulldownButton;
 
-      std::vector<PulldownEntry> entries;
-      int selectedEntry;
+			std::vector<PulldownEntry> entries;
+			int selectedEntry;
 
-      Gui2Image *bg;
-      Gui2Grid *grid;
+			Gui2Image *bg;
+			Gui2Grid *grid;
 
-      bool pulledDown;
+			bool pulledDown;
 
-  };
+	};
 
 }
 

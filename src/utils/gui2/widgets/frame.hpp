@@ -11,15 +11,15 @@
 
 namespace blunted {
 
-  class Gui2Frame : public Gui2View {
+	class Gui2Frame : public Gui2View {
 
-    public:
-      Gui2Frame(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, bool background = false);
-      virtual ~Gui2Frame();
+		public:
+			Gui2Frame(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, bool background = false);
+			virtual ~Gui2Frame();
 
-    protected:
+		protected:
 
-  };
+	};
 
 }
 

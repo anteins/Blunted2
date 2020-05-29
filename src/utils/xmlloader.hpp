@@ -9,31 +9,31 @@
 
 namespace blunted {
 
-  struct XMLTree;
+	struct XMLTree;
 
-  typedef std::multimap<std::string, XMLTree> map_XMLTree;
+	typedef std::multimap<std::string, XMLTree> map_XMLTree;
 
-  struct XMLTree {
-    std::string value;
-    map_XMLTree children;
-  };
+	struct XMLTree {
+		std::string value;
+		map_XMLTree children;
+	};
 
-  class XMLLoader {
+	class XMLLoader {
 
-    public:
-      XMLLoader();
-      ~XMLLoader();
+		public:
+			XMLLoader();
+			~XMLLoader();
 
-      XMLTree LoadFile(const std::string &filename);
-      XMLTree Load(const std::string &file);
-      void Save(XMLTree &source, const std::string &filename);
-      std::string GetSource(const XMLTree &source, int depth = 0) const;
-      void PrintTree(const XMLTree &source) const;
+			XMLTree LoadFile(const std::string &filename);
+			XMLTree Load(const std::string &file);
+			void Save(XMLTree &source, const std::string &filename);
+			std::string GetSource(const XMLTree &source, int depth = 0) const;
+			void PrintTree(const XMLTree &source) const;
 
-    protected:
-      void BuildTree(XMLTree &tree, const std::string &source);
+		protected:
+			void BuildTree(XMLTree &tree, const std::string &source);
 
-  };
+	};
 
 }
 

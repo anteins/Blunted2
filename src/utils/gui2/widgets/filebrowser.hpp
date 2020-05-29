@@ -12,49 +12,49 @@
 
 namespace blunted {
 
-  enum e_DirEntryType {
-    e_DirEntryType_File,
-    e_DirEntryType_Directory,
-    e_DirEntryType_None
-  };
+	enum e_DirEntryType {
+		e_DirEntryType_File,
+		e_DirEntryType_Directory,
+		e_DirEntryType_None
+	};
 
-  struct DirEntry {
-    DirEntry() {
-      name = "";
-      type = e_DirEntryType_None;
-      button = 0;
-    }
-    std::string name;
-    e_DirEntryType type;
-    Gui2Button *button;
-  };
+	struct DirEntry {
+		DirEntry() {
+			name = "";
+			type = e_DirEntryType_None;
+			button = 0;
+		}
+		std::string name;
+		e_DirEntryType type;
+		Gui2Button *button;
+	};
 
-  class Gui2FileBrowser : public Gui2View {
+	class Gui2FileBrowser : public Gui2View {
 
-    public:
-      Gui2FileBrowser(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, const std::string &startDir, e_DirEntryType selectType = e_DirEntryType_File);
-      virtual ~Gui2FileBrowser();
+		public:
+			Gui2FileBrowser(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, const std::string &startDir, e_DirEntryType selectType = e_DirEntryType_File);
+			virtual ~Gui2FileBrowser();
 
-      virtual void OnGainFocus();
-      virtual void OnClick();
+			virtual void OnGainFocus();
+			virtual void OnClick();
 
-      DirEntry GetClickedEntry();
+			DirEntry GetClickedEntry();
 
-      boost::signal<void(Gui2FileBrowser*)> sig_OnClick;
+			boost::signal<void(Gui2FileBrowser*)> sig_OnClick;
 
-    protected:
-      void DisplayDirectory();
-      void GetDirectoryContents();
+		protected:
+			void DisplayDirectory();
+			void GetDirectoryContents();
 
-      std::string directory;
-      e_DirEntryType selectType;
+			std::string directory;
+			e_DirEntryType selectType;
 
-      std::vector<DirEntry> dirContents;
-      int clickedID;
+			std::vector<DirEntry> dirContents;
+			int clickedID;
 
-      Gui2Grid *grid;
+			Gui2Grid *grid;
 
-  };
+	};
 
 }
 

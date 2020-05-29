@@ -9,54 +9,54 @@
 
 namespace blunted {
 
-  class Gui2CaptureKey : public Gui2View {
+	class Gui2CaptureKey : public Gui2View {
 
-    public:
-      Gui2CaptureKey(Gui2WindowManager *windowManager, const std::string &name);
-      virtual ~Gui2CaptureKey();
+		public:
+			Gui2CaptureKey(Gui2WindowManager *windowManager, const std::string &name);
+			virtual ~Gui2CaptureKey();
 
-      virtual void ProcessWindowingEvent(WindowingEvent *event) { event->Accept(); }
-      virtual void ProcessKeyboardEvent(KeyboardEvent *event);
-      int GetKeyID();
+			virtual void ProcessWindowingEvent(WindowingEvent *event) { event->Accept(); }
+			virtual void ProcessKeyboardEvent(KeyboardEvent *event);
+			int GetKeyID();
 
-      boost::signal<void(Gui2CaptureKey*)> sig_OnKey;
+			boost::signal<void(Gui2CaptureKey*)> sig_OnKey;
 
-    protected:
-      signed int keyID;
+		protected:
+			signed int keyID;
 
-  };
+	};
 
-  enum e_JoystickInputType {
-    e_JoystickInputType_Button,
-    e_JoystickInputType_Axis
-  };
+	enum e_JoystickInputType {
+		e_JoystickInputType_Button,
+		e_JoystickInputType_Axis
+	};
 
-  class Gui2CaptureJoy : public Gui2View {
+	class Gui2CaptureJoy : public Gui2View {
 
-    public:
-      Gui2CaptureJoy(Gui2WindowManager *windowManager, const std::string &name, int controllerID);
-      virtual ~Gui2CaptureJoy();
+		public:
+			Gui2CaptureJoy(Gui2WindowManager *windowManager, const std::string &name, int controllerID);
+			virtual ~Gui2CaptureJoy();
 
-      virtual void ProcessWindowingEvent(WindowingEvent *event) { event->Accept(); }
-      virtual void ProcessKeyboardEvent(KeyboardEvent *event); // for escaping
-      virtual void ProcessJoystickEvent(JoystickEvent *event);
-      e_JoystickInputType GetInputType() { return inputType; }
-      int GetButtonID();
-      int GetAxisID();
-      signed int GetAxisSign();
+			virtual void ProcessWindowingEvent(WindowingEvent *event) { event->Accept(); }
+			virtual void ProcessKeyboardEvent(KeyboardEvent *event); // for escaping
+			virtual void ProcessJoystickEvent(JoystickEvent *event);
+			e_JoystickInputType GetInputType() { return inputType; }
+			int GetButtonID();
+			int GetAxisID();
+			signed int GetAxisSign();
 
-      boost::signal<void(Gui2CaptureJoy*)> sig_OnJoy;
+			boost::signal<void(Gui2CaptureJoy*)> sig_OnJoy;
 
-    protected:
-      int controllerID;
-      e_JoystickInputType inputType;
-      int buttonID;
-      signed int axisID;
-      signed int axisSign;
-      signed int tmpAxisID;
-      signed int tmpAxisSign;
+		protected:
+			int controllerID;
+			e_JoystickInputType inputType;
+			int buttonID;
+			signed int axisID;
+			signed int axisSign;
+			signed int tmpAxisID;
+			signed int tmpAxisSign;
 
-  };
+	};
 
 }
 

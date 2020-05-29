@@ -16,50 +16,50 @@
 
 namespace blunted {
 
-  struct Gui2IconSelectorEntry {
-    std::string caption;
-    std::string id;
-    Gui2Image *icon;
-  };
+	struct Gui2IconSelectorEntry {
+		std::string caption;
+		std::string id;
+		Gui2Image *icon;
+	};
 
-  class Gui2IconSelector : public Gui2View {
+	class Gui2IconSelector : public Gui2View {
 
-    public:
-      Gui2IconSelector(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, const std::string &caption);
-      virtual ~Gui2IconSelector();
+		public:
+			Gui2IconSelector(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, const std::string &caption);
+			virtual ~Gui2IconSelector();
 
-      virtual void GetImages(std::vector < boost::intrusive_ptr<Image2D> > &target);
+			virtual void GetImages(std::vector < boost::intrusive_ptr<Image2D> > &target);
 
-      virtual void Process();
-      virtual void Redraw();
+			virtual void Process();
+			virtual void Redraw();
 
-      std::string GetSelectedEntryID() { if (entries.size() > 0) return entries.at(selectedEntry).id; else return ""; }
-      void ClearEntries();
-      void AddEntry(const std::string &id, const std::string &caption, const std::string &imageFile);
+			std::string GetSelectedEntryID() { if (entries.size() > 0) return entries.at(selectedEntry).id; else return ""; }
+			void ClearEntries();
+			void AddEntry(const std::string &id, const std::string &caption, const std::string &imageFile);
 
-      virtual void ProcessWindowingEvent(WindowingEvent *event);
+			virtual void ProcessWindowingEvent(WindowingEvent *event);
 
-      virtual void OnGainFocus();
-      virtual void OnLoseFocus();
+			virtual void OnGainFocus();
+			virtual void OnLoseFocus();
 
-      boost::signal<void()> sig_OnClick;
-      boost::signal<void()> sig_OnChange;
+			boost::signal<void()> sig_OnClick;
+			boost::signal<void()> sig_OnChange;
 
-    protected:
-      boost::intrusive_ptr<Image2D> image;
+		protected:
+			boost::intrusive_ptr<Image2D> image;
 
-      std::string caption;
+			std::string caption;
 
-      std::vector<Gui2IconSelectorEntry> entries;
-      Gui2Caption *selectedCaption;
+			std::vector<Gui2IconSelectorEntry> entries;
+			Gui2Caption *selectedCaption;
 
-      int selectedEntry;
-      float visibleSelectedEntry;
+			int selectedEntry;
+			float visibleSelectedEntry;
 
-      int fadeOut_ms;
-      int fadeOutTime_ms;
+			int fadeOut_ms;
+			int fadeOutTime_ms;
 
-  };
+	};
 
 }
 

@@ -11,27 +11,27 @@
 
 namespace blunted {
 
-  class Gui2Image : public Gui2View {
+	class Gui2Image : public Gui2View {
 
-    public:
-      Gui2Image(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent);
-      virtual ~Gui2Image();
+		public:
+			Gui2Image(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent);
+			virtual ~Gui2Image();
 
-      virtual void GetImages(std::vector < boost::intrusive_ptr<Image2D> > &target);
+			virtual void GetImages(std::vector < boost::intrusive_ptr<Image2D> > &target);
 
-      void LoadImage(const std::string &filename);
-      virtual void Redraw();
+			void LoadImage(const std::string &filename);
+			virtual void Redraw();
 
-      virtual void SetSize(float new_width_percent, float new_height_percent);
-      virtual void SetZoom(float zoomx, float zoomy);
+			virtual void SetSize(float new_width_percent, float new_height_percent);
+			virtual void SetZoom(float zoomx, float zoomy);
 
-      boost::intrusive_ptr<Image2D> &GetImage2D() { return image; }
+			boost::intrusive_ptr<Image2D> &GetImage2D() { return image; }
 
-    protected:
-      boost::intrusive_ptr<Image2D> image;
-      boost::intrusive_ptr<Image2D> imageSource;
+		protected:
+			boost::intrusive_ptr<Image2D> image;
+			boost::intrusive_ptr<Image2D> imageSource;
 
-  };
+	};
 
 }
 

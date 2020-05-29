@@ -14,22 +14,26 @@ namespace blunted {
   std::ofstream logFile;
   boost::mutex mutex;
 
-  void LogOpen() {
+  void LogOpen() 
+  {
     logFile.open("log.txt", std::ios::out);
   }
 
   void LogClose() {
-    if (logFile.is_open()) logFile.close();
+    if (logFile.is_open()) 
+      logFile.close();
   }
 
   boost::signals::connection BindLog(const signal_LogCallback::slot_type &slot) {
     return callback.connect(slot);
   }
 
-  void Log(e_LogType logType, std::string className, std::string methodName, std::string message) {
+  void Log(e_LogType logType, std::string className, std::string methodName, std::string message) 
+  {
     std::string logTypeString;
 
-    switch (logType) {
+    switch (logType) 
+    {
       case e_Notice: logTypeString = "Notice"; break;
       case e_Warning: logTypeString = "Warning"; break;
       case e_Error: logTypeString = "ERROR"; break;
@@ -42,11 +46,14 @@ namespace blunted {
 
     mutex.lock();
     printf("%s", bla);
-    if (logFile.is_open()) logFile << bla;
+    if (logFile.is_open()) 
+      logFile << bla;
+
     logFile.flush();
     mutex.unlock();
 
-    if (logType == e_FatalError) {
+    if (logType == e_FatalError) 
+    {
       LogClose();
 
 #ifndef NDEBUG

@@ -6,53 +6,53 @@
 
 namespace blunted {
 
-  Gui2Event::Gui2Event(e_Gui2EventType eventType) : eventType(eventType), accepted(false) {
-  }
+	Gui2Event::Gui2Event(e_Gui2EventType eventType) : eventType(eventType), accepted(false) {
+	}
 
-  Gui2Event::~Gui2Event() {
-  }
+	Gui2Event::~Gui2Event() {
+	}
 
-  e_Gui2EventType Gui2Event::GetType() const {
-    return eventType;
-  }
-
-
-  // WINDOWING EVENT
-
-  WindowingEvent::WindowingEvent() : Gui2Event(e_Gui2EventType_Windowing) {
-    activate = false;
-    escape = false;
-  }
-
-  WindowingEvent::~WindowingEvent() {
-  }
+	e_Gui2EventType Gui2Event::GetType() const {
+		return eventType;
+	}
 
 
-  // KEYBOARD EVENT
+	// WINDOWING EVENT
 
-  KeyboardEvent::KeyboardEvent() : Gui2Event(e_Gui2EventType_Keyboard) {
-    for (int i = 0; i < SDLK_LAST; i++) {
-      keyOnce[i] = false;
-      keyContinuous[i] = false;
-      keyRepeated[i] = false;
-    }
-  }
+	WindowingEvent::WindowingEvent() : Gui2Event(e_Gui2EventType_Windowing) {
+		activate = false;
+		escape = false;
+	}
 
-  KeyboardEvent::~KeyboardEvent() {
-  }
+	WindowingEvent::~WindowingEvent() {
+	}
 
 
-  // JOYSTICK EVENT
+	// KEYBOARD EVENT
 
-  JoystickEvent::JoystickEvent() : Gui2Event(e_Gui2EventType_Joystick) {
-    for (int j = 0; j < UserEventManager::GetInstance().GetJoystickCount(); j++) {
-      for (int i = 0; i < _JOYSTICK_MAXBUTTONS; i++) {
-        button[j][i] = false;
-      }
-    }
-  }
+	KeyboardEvent::KeyboardEvent() : Gui2Event(e_Gui2EventType_Keyboard) {
+		for (int i = 0; i < SDLK_LAST; i++) {
+			keyOnce[i] = false;
+			keyContinuous[i] = false;
+			keyRepeated[i] = false;
+		}
+	}
 
-  JoystickEvent::~JoystickEvent() {
-  }
+	KeyboardEvent::~KeyboardEvent() {
+	}
+
+
+	// JOYSTICK EVENT
+
+	JoystickEvent::JoystickEvent() : Gui2Event(e_Gui2EventType_Joystick) {
+		for (int j = 0; j < UserEventManager::GetInstance().GetJoystickCount(); j++) {
+			for (int i = 0; i < _JOYSTICK_MAXBUTTONS; i++) {
+				button[j][i] = false;
+			}
+		}
+	}
+
+	JoystickEvent::~JoystickEvent() {
+	}
 
 }

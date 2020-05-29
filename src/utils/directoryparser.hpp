@@ -17,17 +17,17 @@ namespace fs = boost::filesystem;
 
 namespace blunted {
 
-  class DirectoryParser {
+	class DirectoryParser {
 
-    public:
-      DirectoryParser();
-      virtual ~DirectoryParser();
+		public:
+			DirectoryParser();
+			virtual ~DirectoryParser();
 
-      void Parse(boost::filesystem::path path, const std::string &extension, std::vector<std::string> &files, bool recurse = true);
+			void Parse(boost::filesystem::path path, const std::string &extension, std::vector<std::string> &files, bool recurse = true);
 
-    protected:
+		protected:
 
-  };
+	};
 
 }
 

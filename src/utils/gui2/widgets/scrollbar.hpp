@@ -13,35 +13,35 @@
 
 namespace blunted {
 
-  enum e_Gui2ScrollbarMode {
-    e_Gui2ScrollbarMode_Horizontal,
-    e_Gui2ScrollbarMode_Vertical
-  };
+	enum e_Gui2ScrollbarMode {
+		e_Gui2ScrollbarMode_Horizontal,
+		e_Gui2ScrollbarMode_Vertical
+	};
 
-  class Gui2Scrollbar : public Gui2View {
+	class Gui2Scrollbar : public Gui2View {
 
-    public:
-      Gui2Scrollbar(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent);
-      virtual ~Gui2Scrollbar();
+		public:
+			Gui2Scrollbar(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent);
+			virtual ~Gui2Scrollbar();
 
-      virtual void GetImages(std::vector < boost::intrusive_ptr<Image2D> > &target);
+			virtual void GetImages(std::vector < boost::intrusive_ptr<Image2D> > &target);
 
-      virtual void Process();
+			virtual void Process();
 
-      virtual void Redraw();
+			virtual void Redraw();
 
-      void SetMode(e_Gui2ScrollbarMode mode) { this->mode = mode; }
-      void SetSizePercent(float newValue) { size_percent = newValue; }
-      void SetProgressPercent(float newValue) { progress_percent = newValue; }
+			void SetMode(e_Gui2ScrollbarMode mode) { this->mode = mode; }
+			void SetSizePercent(float newValue) { size_percent = newValue; }
+			void SetProgressPercent(float newValue) { progress_percent = newValue; }
 
-    protected:
-      boost::intrusive_ptr<Image2D> image;
+		protected:
+			boost::intrusive_ptr<Image2D> image;
 
-      e_Gui2ScrollbarMode mode;
-      float size_percent;
-      float progress_percent;
+			e_Gui2ScrollbarMode mode;
+			float size_percent;
+			float progress_percent;
 
-  };
+	};
 
 }
 

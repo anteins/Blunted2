@@ -11,24 +11,24 @@
 
 namespace blunted {
 
-  class ObjectLoader {
+	class ObjectLoader {
 
-    public:
-      ObjectLoader();
-      ~ObjectLoader();
+		public:
+			ObjectLoader();
+			~ObjectLoader();
 
-      // depricated: LoadObject now recurses, this would take away the need for a level->objects hierarchy
-      boost::intrusive_ptr<Node> LoadLevel(boost::shared_ptr<Scene3D> scene3D, const std::string &filename) const;
+			// depricated: LoadObject now recurses, this would take away the need for a level->objects hierarchy
+			boost::intrusive_ptr<Node> LoadLevel(boost::shared_ptr<Scene3D> scene3D, const std::string &filename) const;
 
-      boost::intrusive_ptr<Node> LoadObject(boost::shared_ptr<Scene3D> scene3D, const std::string &filename, const Vector3 &offset = Vector3(0)) const;
+			boost::intrusive_ptr<Node> LoadObject(boost::shared_ptr<Scene3D> scene3D, const std::string &filename, const Vector3 &offset = Vector3(0)) const;
 
-    protected:
-      boost::intrusive_ptr<Node> LoadObjectImpl(boost::shared_ptr<Scene3D> scene3D, const std::string &nodename, const XMLTree &objectTree, const Vector3 &offset) const;
+		protected:
+			boost::intrusive_ptr<Node> LoadObjectImpl(boost::shared_ptr<Scene3D> scene3D, const std::string &nodename, const XMLTree &objectTree, const Vector3 &offset) const;
 
-      void InterpretProperties(const map_XMLTree &tree, Properties &properties) const;
-      e_LocalMode InterpretLocalMode(const std::string &value) const;
+			void InterpretProperties(const map_XMLTree &tree, Properties &properties) const;
+			e_LocalMode InterpretLocalMode(const std::string &value) const;
 
-  };
+	};
 
 }
 

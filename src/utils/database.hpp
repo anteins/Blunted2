@@ -11,29 +11,29 @@ struct sqlite3;
 
 namespace blunted {
 
-  class DatabaseResult;
+	class DatabaseResult;
 
-  class Database {
+	class Database {
 
-    public:
-      Database();
-      virtual ~Database();
+		public:
+			Database();
+			virtual ~Database();
 
-      bool Load(const std::string &filename);
-      DatabaseResult *Query(const std::string &query);
+			bool Load(const std::string &filename);
+			DatabaseResult *Query(const std::string &query);
 
-    protected:
-      sqlite3 *db;
+		protected:
+			sqlite3 *db;
 
-  };
+	};
 
-  class DatabaseResult {
+	class DatabaseResult {
 
-    public:
-      std::vector < std::string > header;
-      std::vector < std::vector < std::string > > data;
+		public:
+			std::vector < std::string > header;
+			std::vector < std::vector < std::string > > data;
 
-  };
+	};
 
 }
 

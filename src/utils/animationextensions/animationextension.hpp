@@ -9,29 +9,29 @@
 
 namespace blunted {
 
-  class Animation;
+	class Animation;
 
-  class AnimationExtension {
+	class AnimationExtension {
 
-    public:
-      AnimationExtension(Animation *parent) : parent(parent) {};
-      virtual ~AnimationExtension() { parent = 0; };
+		public:
+			AnimationExtension(Animation *parent) : parent(parent) {};
+			virtual ~AnimationExtension() { parent = 0; };
 
-      virtual void Shift(int fromFrame, int offset) = 0;
-      virtual void Rotate2D(radian angle) = 0;
-      virtual void Mirror() = 0;
+			virtual void Shift(int fromFrame, int offset) = 0;
+			virtual void Rotate2D(radian angle) = 0;
+			virtual void Mirror() = 0;
 
-      virtual bool GetKeyFrame(int frame, Quaternion &orientation, Vector3 &position, float &power) const = 0;
-      virtual void SetKeyFrame(int frame, const Quaternion &orientation, const Vector3 &position = Vector3(0, 0, 0), float power = 1.0) = 0;
-      virtual void DeleteKeyFrame(int frame) = 0;
+			virtual bool GetKeyFrame(int frame, Quaternion &orientation, Vector3 &position, float &power) const = 0;
+			virtual void SetKeyFrame(int frame, const Quaternion &orientation, const Vector3 &position = Vector3(0, 0, 0), float power = 1.0) = 0;
+			virtual void DeleteKeyFrame(int frame) = 0;
 
-      virtual void Load(std::vector<std::string> &tokenizedLine) = 0;
-      virtual void Save(FILE *file) = 0;
+			virtual void Load(std::vector<std::string> &tokenizedLine) = 0;
+			virtual void Save(FILE *file) = 0;
 
-    protected:
-      Animation *parent;
+		protected:
+			Animation *parent;
 
-  };
+	};
 
 }
 

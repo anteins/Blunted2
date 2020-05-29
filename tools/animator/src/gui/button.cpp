@@ -11,73 +11,75 @@
 
 namespace blunted {
 
-  GuiButton::GuiButton(boost::shared_ptr<Scene2D> scene2D, const std::string &name, float x1_percent, float y1_percent, float x2_percent, float y2_percent, const std::string &caption) : GuiView(scene2D, name, x1_percent, y1_percent, x2_percent, y2_percent), caption(caption) {
-  }
+	GuiButton::GuiButton(boost::shared_ptr<Scene2D> scene2D, const std::string &name, float x1_percent, float y1_percent, float x2_percent, float y2_percent, const std::string &caption) : GuiView(scene2D, name, x1_percent, y1_percent, x2_percent, y2_percent), caption(caption) {
+	}
 
-  GuiButton::~GuiButton() {
-    scene2D->DeleteObject(button);
-    button.reset();
-  }
+	GuiButton::~GuiButton() 
+	{
+		scene2D->DeleteObject(button);
+		button.reset();
+	}
 
+	void GuiButton::Init() 
+	{
+		SDL_Surface *sdlSurface = CreateSDLSurface(GetX(x2_percent) - GetX(x1_percent), GetY(y2_percent) - GetY(y1_percent));
 
-  void GuiButton::Init() {
-    SDL_Surface *sdlSurface = CreateSDLSurface(GetX(x2_percent) - GetX(x1_percent), GetY(y2_percent) - GetY(y1_percent));
+		boost::intrusive_ptr < Resource<Surface> > buttonResource = ResourceManagerPool::GetInstance().GetManager<Surface>(e_ResourceType_Surface)->Fetch("button: " + GetName(), false, false);
+		Surface *surface = buttonResource->GetResource();
 
-    boost::intrusive_ptr < Resource<Surface> > buttonResource = ResourceManagerPool::GetInstance().GetManager<Surface>(e_ResourceType_Surface)->Fetch("button: " + GetName(), false, false);
-    Surface *surface = buttonResource->GetResource();
+		Uint32 color = SDL_MapRGBA(sdlSurface->format, 0, 0, 0, 200);
+		sdl_rectangle_filled(sdlSurface, 0, 0, GetX(x2_percent) - GetX(x1_percent), GetY(y2_percent) - GetY(y1_percent), color);
 
-    Uint32 color = SDL_MapRGBA(sdlSurface->format, 0, 0, 0, 200);
-    sdl_rectangle_filled(sdlSurface, 0, 0, GetX(x2_percent) - GetX(x1_percent), GetY(y2_percent) - GetY(y1_percent), color);
+		surface->SetData(sdlSurface);
 
-    surface->SetData(sdlSurface);
+		button = boost::static_pointer_cast<Image2D>(ObjectFactory::GetInstance().CreateObject("button: " + GetName(), e_ObjectType_Image2D));
+		scene2D->CreateSystemObjects(button);
+		button->SetImage(buttonResource);
 
-    button = boost::static_pointer_cast<Image2D>(ObjectFactory::GetInstance().CreateObject("button: " + GetName(), e_ObjectType_Image2D));
-    scene2D->CreateSystemObjects(button);
-    button->SetImage(buttonResource);
+		scene2D->AddObject(button);
+		button->SetPosition(GetX(x1_percent), GetY(y1_percent));
 
-    scene2D->AddObject(button);
-    button->SetPosition(GetX(x1_percent), GetY(y1_percent));
+		guiCaption = new GuiCaption(scene2D, GetName(), x1_percent, y1_percent, x2_percent, y2_percent, caption);
+		this->AddView(guiCaption);
+	}
 
-    guiCaption = new GuiCaption(scene2D, GetName(), x1_percent, y1_percent, x2_percent, y2_percent, caption);
-    this->AddView(guiCaption);
-  }
+	void GuiButton::OnFocus() 
+	{
+		boost::intrusive_ptr < Resource<Surface> > buttonResource = button->GetImage();
+		buttonResource->resourceMutex.lock();
 
+		Surface *surface = buttonResource->GetResource();
+		SDL_Surface *sdlSurface = surface->GetData();
 
-  void GuiButton::OnFocus() {
-    boost::intrusive_ptr < Resource<Surface> > buttonResource = button->GetImage();
-    buttonResource->resourceMutex.lock();
+		Uint32 color = SDL_MapRGBA(sdlSurface->format, 80, 80, 128, 200);
+		sdl_rectangle_filled(sdlSurface, 0, 0, GetX(x2_percent) - GetX(x1_percent), GetY(y2_percent) - GetY(y1_percent), color);
 
-    Surface *surface = buttonResource->GetResource();
-    SDL_Surface *sdlSurface = surface->GetData();
+		buttonResource->resourceMutex.unlock();
 
-    Uint32 color = SDL_MapRGBA(sdlSurface->format, 80, 80, 128, 200);
-    sdl_rectangle_filled(sdlSurface, 0, 0, GetX(x2_percent) - GetX(x1_percent), GetY(y2_percent) - GetY(y1_percent), color);
+		button->OnChange();
+	}
 
-    buttonResource->resourceMutex.unlock();
+	void GuiButton::OnLoseFocus() 
+	{
+		boost::intrusive_ptr < Resource<Surface> > buttonResource = button->GetImage();
+		buttonResource->resourceMutex.lock();
 
-    button->OnChange();
-  }
+		Surface *surface = buttonResource->GetResource();
+		SDL_Surface *sdlSurface = surface->GetData();
 
-  void GuiButton::OnLoseFocus() {
-    boost::intrusive_ptr < Resource<Surface> > buttonResource = button->GetImage();
-    buttonResource->resourceMutex.lock();
+		Uint32 color = SDL_MapRGBA(sdlSurface->format, 0, 0, 0, 200);
+		sdl_rectangle_filled(sdlSurface, 0, 0, GetX(x2_percent) - GetX(x1_percent), GetY(y2_percent) - GetY(y1_percent), color);
 
-    Surface *surface = buttonResource->GetResource();
-    SDL_Surface *sdlSurface = surface->GetData();
+		buttonResource->resourceMutex.unlock();
 
-    Uint32 color = SDL_MapRGBA(sdlSurface->format, 0, 0, 0, 200);
-    sdl_rectangle_filled(sdlSurface, 0, 0, GetX(x2_percent) - GetX(x1_percent), GetY(y2_percent) - GetY(y1_percent), color);
+		button->OnChange();
+	}
 
-    buttonResource->resourceMutex.unlock();
+	void GuiButton::OnKey(int sdlkID) 
+	{
+		if (sdlkID == SDLK_UP || sdlkID == SDLK_LEFT) parent->SwitchFocus(-1);
+		if (sdlkID == SDLK_DOWN || sdlkID == SDLK_RIGHT) parent->SwitchFocus(1);
 
-    button->OnChange();
-  }
-
-  void GuiButton::OnKey(int sdlkID) {
-    if (sdlkID == SDLK_UP || sdlkID == SDLK_LEFT) parent->SwitchFocus(-1);
-    if (sdlkID == SDLK_DOWN || sdlkID == SDLK_RIGHT) parent->SwitchFocus(1);
-
-    if (sdlkID == SDLK_RETURN) EmitSignal(this, SDLK_RETURN);
-  }
-
+		if (sdlkID == SDLK_RETURN) EmitSignal(this, SDLK_RETURN);
+	}
 }

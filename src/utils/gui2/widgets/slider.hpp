@@ -15,62 +15,62 @@
 
 namespace blunted {
 
-  struct Gui2Slider_HelperValue {
-    int index;
-    Vector3 color;
-    float value;
-    Gui2Caption *descriptionCaption;
-  };
+	struct Gui2Slider_HelperValue {
+		int index;
+		Vector3 color;
+		float value;
+		Gui2Caption *descriptionCaption;
+	};
 
-  class Gui2Slider : public Gui2View {
+	class Gui2Slider : public Gui2View {
 
-    public:
-      Gui2Slider(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, const std::string &caption);
-      virtual ~Gui2Slider();
+		public:
+			Gui2Slider(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, const std::string &caption);
+			virtual ~Gui2Slider();
 
-      virtual void GetImages(std::vector < boost::intrusive_ptr<Image2D> > &target);
+			virtual void GetImages(std::vector < boost::intrusive_ptr<Image2D> > &target);
 
-      virtual void Process();
-      virtual void Redraw();
+			virtual void Process();
+			virtual void Redraw();
 
-      virtual void ProcessWindowingEvent(WindowingEvent *event);
+			virtual void ProcessWindowingEvent(WindowingEvent *event);
 
-      virtual void Show() { titleCaption->Show(); Gui2View::Show(); } // ignore helper descriptions
+			virtual void Show() { titleCaption->Show(); Gui2View::Show(); } // ignore helper descriptions
 
-      virtual void OnGainFocus();
-      virtual void OnLoseFocus();
+			virtual void OnGainFocus();
+			virtual void OnLoseFocus();
 
-      void SetValue(float newValue);
-      float GetValue() { return quantizedValue; }
+			void SetValue(float newValue);
+			float GetValue() { return quantizedValue; }
 
-      void SetQuantization(int steps) { quantizationSteps = std::max(steps, 2); }
+			void SetQuantization(int steps) { quantizationSteps = std::max(steps, 2); }
 
-      int AddHelperValue(const Vector3 &color, const std::string &description, float initialValue = 0.0f);
-      void SetHelperValue(int index, float value);
-      void DeleteHelperValue(int index);
+			int AddHelperValue(const Vector3 &color, const std::string &description, float initialValue = 0.0f);
+			void SetHelperValue(int index, float value);
+			void DeleteHelperValue(int index);
 
-      boost::signal<void(Gui2Slider*)> sig_OnChange;
+			boost::signal<void(Gui2Slider*)> sig_OnChange;
 
-    protected:
-      boost::intrusive_ptr<Image2D> image;
+		protected:
+			boost::intrusive_ptr<Image2D> image;
 
-      int fadeOut_ms;
-      int fadeOutTime_ms;
-      int switchHelperDescription_ms;
-      int switchHelperDescriptionTime_ms;
-      int activeDescription;
-      int quantizationSteps;
+			int fadeOut_ms;
+			int fadeOutTime_ms;
+			int switchHelperDescription_ms;
+			int switchHelperDescriptionTime_ms;
+			int activeDescription;
+			int quantizationSteps;
 
-      std::string caption;
+			std::string caption;
 
-      Gui2Caption *titleCaption;
+			Gui2Caption *titleCaption;
 
-      std::vector<Gui2Slider_HelperValue> helperValues;
+			std::vector<Gui2Slider_HelperValue> helperValues;
 
-      float value;
-      float quantizedValue;
+			float value;
+			float quantizedValue;
 
-  };
+	};
 
 }
 

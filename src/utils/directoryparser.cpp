@@ -10,42 +10,42 @@ namespace fs = boost::filesystem;
 
 namespace blunted {
 
-  DirectoryParser::DirectoryParser() {
-  }
+	DirectoryParser::DirectoryParser() {
+	}
 
-  DirectoryParser::~DirectoryParser() {
-  }
+	DirectoryParser::~DirectoryParser() {
+	}
 
-  void DirectoryParser::Parse(boost::filesystem::path path, const std::string &extension, std::vector<std::string> &files, bool recurse) {
+	void DirectoryParser::Parse(boost::filesystem::path path, const std::string &extension, std::vector<std::string> &files, bool recurse) {
 
-    if (!fs::exists(path) || !fs::is_directory(path)) Log(e_Error, "DirectoryParser", "Parse", "Could not open directory " + path.string() + " for reading");
+		if (!fs::exists(path) || !fs::is_directory(path)) Log(e_Error, "DirectoryParser", "Parse", "Could not open directory " + path.string() + " for reading");
 
-    fs::directory_iterator dirIter(path);
-    fs::directory_iterator endIter;
-    while (dirIter != endIter) {
-      if (is_directory(dirIter->status())) {
+		fs::directory_iterator dirIter(path);
+		fs::directory_iterator endIter;
+		while (dirIter != endIter) {
+			if (is_directory(dirIter->status())) {
 
-        if (recurse) {
-          boost::filesystem::path thePath(path);
-          thePath /= dirIter->path().filename();
-          Parse(thePath, extension, files);
-        }
+				if (recurse) {
+					boost::filesystem::path thePath(path);
+					thePath /= dirIter->path().filename();
+					Parse(thePath, extension, files);
+				}
 
-      } else {
-        boost::filesystem::path thePath(path);
-        thePath /= dirIter->path().filename();
+			} else {
+				boost::filesystem::path thePath(path);
+				thePath /= dirIter->path().filename();
 
-        if (thePath.extension() == "." + extension) {
+				if (thePath.extension() == "." + extension) {
 
-          // add to results
-          //printf("adding %s\n", dirIter->path().filename().c_str());
-          files.push_back(path.string() + "/" + thePath.filename().string());
+					// add to results
+					//printf("adding %s\n", dirIter->path().filename().c_str());
+					files.push_back(path.string() + "/" + thePath.filename().string());
 
-        }
-      }
+				}
+			}
 
-      dirIter++;
-    }
-  }
+			dirIter++;
+		}
+	}
 
 }

@@ -15,44 +15,44 @@
 
 namespace blunted {
 
-  struct WorkerThreadItem {
-    unsigned long beginTime_ms;
-    unsigned long endTime_ms;
-    e_ThreadState state;
-    std::string commandName;
-  };
+	struct WorkerThreadItem {
+		unsigned long beginTime_ms;
+		unsigned long endTime_ms;
+		e_ThreadState state;
+		std::string commandName;
+	};
 
-  class ThreadHud {
+	class ThreadHud {
 
-    public:
-      ThreadHud(boost::shared_ptr<Scene2D> scene2D);
-      virtual ~ThreadHud();
+		public:
+			ThreadHud(boost::shared_ptr<Scene2D> scene2D);
+			virtual ~ThreadHud();
 
-      void Execute();
+			void Execute();
 
-      void Redraw(bool forceRedraw = false);
+			void Redraw(bool forceRedraw = false);
 
-    protected:
-      boost::shared_ptr<Scene2D> scene2D;
+		protected:
+			boost::shared_ptr<Scene2D> scene2D;
 
-      std::vector < std::vector<WorkerThreadItem> > workerThreadHistory; // vector content is guaranteed to be chronologic
-      boost::intrusive_ptr<Image2D> graph;
+			std::vector < std::vector<WorkerThreadItem> > workerThreadHistory; // vector content is guaranteed to be chronologic
+			boost::intrusive_ptr<Image2D> graph;
 
-      int skipRedrawCounter;
+			int skipRedrawCounter;
 
-      int _width;
-      int _headerheight;
-      int _lineheight;
-      int _height;
+			int _width;
+			int _headerheight;
+			int _lineheight;
+			int _height;
 
-      bool gui_autoPlay;
-      unsigned long gui_focusTime_ms;
-      float gui_zoomLevel;
-      float gui_zoomMomentum;
+			bool gui_autoPlay;
+			unsigned long gui_focusTime_ms;
+			float gui_zoomLevel;
+			float gui_zoomMomentum;
 
-      TTF_Font *font;
+			TTF_Font *font;
 
-  };
+	};
 
 }
 

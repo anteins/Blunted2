@@ -11,30 +11,30 @@
 
 namespace blunted {
 
-  class Gui2Grid;
-  class Gui2Button;
+	class Gui2Grid;
+	class Gui2Button;
 
-  class Gui2Dialog : public Gui2Frame {
+	class Gui2Dialog : public Gui2Frame {
 
-    public:
-      Gui2Dialog(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, const std::string &caption);
-      virtual ~Gui2Dialog();
+		public:
+			Gui2Dialog(Gui2WindowManager *windowManager, const std::string &name, float x_percent, float y_percent, float width_percent, float height_percent, const std::string &caption);
+			virtual ~Gui2Dialog();
 
-      virtual void AddContent(Gui2View *view);
+			virtual void AddContent(Gui2View *view);
 
-      virtual Gui2Button *AddPosNegButtons(const std::string &posName, const std::string &negName);
-      virtual Gui2Button *AddSingleButton(const std::string &caption);
+			virtual Gui2Button *AddPosNegButtons(const std::string &posName, const std::string &negName);
+			virtual Gui2Button *AddSingleButton(const std::string &caption);
 
-      virtual void ProcessWindowingEvent(WindowingEvent *event);
+			virtual void ProcessWindowingEvent(WindowingEvent *event);
 
-      //boost::signal<void(Gui2Dialog*)> sig_OnClose;
-      boost::signal<void(Gui2Dialog*)> sig_OnPositive;
-      boost::signal<void(Gui2Dialog*)> sig_OnNegative;
+			//boost::signal<void(Gui2Dialog*)> sig_OnClose;
+			boost::signal<void(Gui2Dialog*)> sig_OnPositive;
+			boost::signal<void(Gui2Dialog*)> sig_OnNegative;
 
-    protected:
-      Gui2Grid *grid;
+		protected:
+			Gui2Grid *grid;
 
-  };
+	};
 
 }
 

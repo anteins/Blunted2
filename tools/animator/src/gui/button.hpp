@@ -12,24 +12,24 @@
 
 namespace blunted {
 
-  class GuiButton : public GuiView {
+	class GuiButton : public GuiView {
 
-    public:
-      GuiButton(boost::shared_ptr<Scene2D> scene2D, const std::string &name, float x1_percent, float y1_percent, float x2_percent, float y2_percent, const std::string &caption);
-      virtual ~GuiButton();
+		public:
+			GuiButton(boost::shared_ptr<Scene2D> scene2D, const std::string &name, float x1_percent, float y1_percent, float x2_percent, float y2_percent, const std::string &caption);
+			virtual ~GuiButton();
 
-      virtual void Init();
+			virtual void Init();
 
-      virtual void OnFocus();
-      virtual void OnLoseFocus();
-      virtual void OnKey(int sdlkID);
+			virtual void OnFocus();
+			virtual void OnLoseFocus();
+			virtual void OnKey(int sdlkID);
 
-    protected:
-      boost::intrusive_ptr<Image2D> button;
-      std::string caption;
-      GuiCaption *guiCaption;
+		protected:
+			boost::intrusive_ptr<Image2D> button;
+			std::string caption;
+			GuiCaption *guiCaption;
 
-  };
+	};
 
 }
 
