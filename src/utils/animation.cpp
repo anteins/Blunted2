@@ -50,7 +50,8 @@ namespace blunted
 		customData = tmpCustomData;
 
 		std::map<const char*, std::string>::const_iterator varCacheIter = src.variableCache.begin();
-		while (varCacheIter != src.variableCache.end()) {
+		while (varCacheIter != src.variableCache.end()) 
+		{
 			char *varName = new char[256];
 			memcpy(varName, varCacheIter->first, 256 * sizeof(char));
 			variableCache.insert(std::pair<const char*, std::string>(varName, varCacheIter->second));
@@ -209,7 +210,8 @@ namespace blunted
 			while (animIter != animation.end()) 
             {
 				// still before current frame and yet encountered keys? clear them, we don't need earlier keys
-				if (animIter->first < frame && weighedKeys.size() > 0) weighedKeys.clear();
+				if (animIter->first < frame && weighedKeys.size() > 0) 
+					weighedKeys.clear();
 
 				// add key, hopefully this is the last one before our current frame, or the first after
 				WeighedKey key;
@@ -257,7 +259,9 @@ namespace blunted
 				if (weighedKeys.size() > 1) 
                 {
 					orientation = weighedKeys.at(0).keyFrame.orientation.GetSlerped(bias, weighedKeys.at(1).keyFrame.orientation);
-				} else {
+				} 
+				else 
+				{
 					orientation = weighedKeys.at(0).keyFrame.orientation;
 				}
 			}
@@ -889,10 +893,14 @@ namespace blunted
 													nodeAnimations.at(0)->animation.begin()->first * 1.0) * 100;
 				result.coords[2] = 0;
 				cache_incomingVelocity = result.GetLength();
-				if (cache_incomingVelocity < 1.8) cache_incomingVelocity = 0;
-				else if (cache_incomingVelocity >= 1.8 && cache_incomingVelocity < 4.2) cache_incomingVelocity = 3.5;
-				else if (cache_incomingVelocity >= 4.2 && cache_incomingVelocity < 6.0) cache_incomingVelocity = 5.0;
-				else if (cache_incomingVelocity >= 6.0) cache_incomingVelocity = 7.0;
+				if (cache_incomingVelocity < 1.8) 
+					cache_incomingVelocity = 0;
+				else if (cache_incomingVelocity >= 1.8 && cache_incomingVelocity < 4.2) 
+					cache_incomingVelocity = 3.5;
+				else if (cache_incomingVelocity >= 4.2 && cache_incomingVelocity < 6.0) 
+					cache_incomingVelocity = 5.0;
+				else if (cache_incomingVelocity >= 6.0) 
+					cache_incomingVelocity = 7.0;
 			} 
             else 
             {
